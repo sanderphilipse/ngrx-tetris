@@ -1,0 +1,50 @@
+.title {
+  color: #0d7fff;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.wrapper {
+ justify-content: center;
+ border-radius: 0.5rem;
+ border: 2px solid #0d7fff;
+//  background-color: #f7f3ee;
+ display: grid;
+ grid-template-columns: repeat(10, 3vh);
+ grid-auto-rows: 3vh;
+}
+
+.wrapper > div {
+ border: 1px solid #0d7fff;
+}
+
+.purple {
+  background-color: purple;
+}
+
+.cyan {
+  background-color: cyan;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.orange {
+  background-color: orange;
+}
