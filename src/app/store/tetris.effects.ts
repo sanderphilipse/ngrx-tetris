@@ -8,11 +8,17 @@ import {
   setSpeed,
   tick,
 } from './tetris.actions';
-import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { combineLatest, Observable, timer } from 'rxjs';
+import {
+  concatMap,
+  filter,
+  map,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs/operators';
+import { Observable, timer } from 'rxjs';
 import {
   selectControls,
-  selectGameSpeed,
+  selectGameSpeedState,
   selectGameState,
   selectGrid,
   selectScore,
@@ -28,7 +34,7 @@ export class TetrisEffects {
         this.store.select(selectControls),
         this.store.select(selectGameState)
       ),
-      switchMap(([action, controls, state]) =>
+      concatMap(([action, controls, state]) =>
         state === GameState.ACTIVE ? [controls.get(action.key)] : []
       ),
       filterNullish()
@@ -37,7 +43,7 @@ export class TetrisEffects {
 
   removeLines$ = createEffect(() =>
     this.store.select(selectGrid).pipe(
-      switchMap((grid) => {
+      concatMap((grid) => {
         const filteredGrid = grid
           .map((line, index) =>
             line.every((block) => block != undefined) ? index : undefined
@@ -61,13 +67,10 @@ export class TetrisEffects {
   );
 
   tick$ = createEffect(() =>
-    combineLatest([
-      this.store.select(selectGameSpeed),
-      this.store.select(selectGameState),
-    ]).pipe(
-      switchMap(([speed, state]) => {
-        const timer$ = timer(speed, speed).pipe(map(() => tick()));
-        return state === GameState.ACTIVE ? timer$ : [];
+    this.store.select(selectGameSpeedState).pipe(
+      switchMap(({ gameSpeed, gameState }) => {
+        const timer$ = timer(gameSpeed, gameSpeed).pipe(map(() => tick()));
+        return gameState === GameState.ACTIVE ? timer$ : [];
       })
     )
   );
@@ -76,9 +79,9 @@ export class TetrisEffects {
     this.store
       .select(selectScore)
       .pipe(
-        switchMap(score =>
-          [setSpeed({ speed: 500 / (Math.floor(score / 1000) + 1) })]
-        )
+        concatMap((score) => [
+          setSpeed({ speed: 500 / (Math.floor(score / 1000) + 1) }),
+        ])
       )
   );
 

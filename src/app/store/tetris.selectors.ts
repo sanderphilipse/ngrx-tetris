@@ -5,9 +5,9 @@ import { FEATURE_STATE_KEY } from './tetris.reducer';
 
 const selectFeatureState = createFeatureSelector<State>(FEATURE_STATE_KEY);
 
-const selectBoard = createSelector(selectFeatureState, s => s.board);
+const selectBoard = createSelector(selectFeatureState, (s) => s.board);
 
-export const selectGrid = createSelector(selectBoard, (s) => s ? s.grid : []);
+export const selectGrid = createSelector(selectBoard, (s) => (s ? s.grid : []));
 
 export const selectTetromino = createSelector(
   selectBoard,
@@ -59,10 +59,24 @@ export const selectBlocks = createSelector(
   }
 );
 
-export const selectGameState = createSelector(selectFeatureState, s => s.gameState);
-export const selectGameSpeed = createSelector(selectFeatureState, s => s.gameSpeed);
+export const selectGameState = createSelector(
+  selectFeatureState,
+  (s) => s.gameState
+);
+export const selectGameSpeed = createSelector(
+  selectFeatureState,
+  (s) => s.gameSpeed
+);
+export const selectGameSpeedState = createSelector(
+  selectGameSpeed,
+  selectGameState,
+  (gameSpeed, gameState) => ({ gameSpeed, gameState })
+);
 
-export const selectSettings = createSelector(selectFeatureState, s => s.settings);
-export const selectControls = createSelector(selectSettings, s => s.controls);
+export const selectSettings = createSelector(
+  selectFeatureState,
+  (s) => s.settings
+);
+export const selectControls = createSelector(selectSettings, (s) => s.controls);
 
-export const selectScore = createSelector(selectFeatureState, s => s.score);
+export const selectScore = createSelector(selectFeatureState, (s) => s.score);

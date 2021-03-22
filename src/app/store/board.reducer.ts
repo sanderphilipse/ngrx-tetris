@@ -90,7 +90,6 @@ export const boardReducer = createReducer<BoardState>(
     if (!state.activeTetromino) {
       return state;
     }
-    // second time in a row that tetro tried to move down and couldn't, merge with board
     const newLocation = {
       ...state.activeTetromino.location,
       y: state.activeTetromino.location.y + 1,
@@ -101,6 +100,7 @@ export const boardReducer = createReducer<BoardState>(
       newLocation
     );
     const collided = hasCollision(state.grid, newLocationBlocks);
+    // second time in a row that tetro tried to move down and couldn't, merge with board
     if (collided && state.activeTetromino.settled) {
       const oldLocationBlocks = getBlocks(
         state.activeTetromino.shape,
