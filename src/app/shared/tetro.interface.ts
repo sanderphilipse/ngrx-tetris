@@ -73,7 +73,7 @@ export const tetroMap = new Map([
   [1, { shape: Shape.J, color: Color.BLUE }],
   [2, { shape: Shape.L, color: Color.ORANGE }],
   [3, { shape: Shape.O, color: Color.YELLOW }],
-  [4, { shape: Shape.S, color: Color.BLUE }],
+  [4, { shape: Shape.S, color: Color.GREEN }],
   [5, { shape: Shape.T, color: Color.PURPLE }],
   [6, { shape: Shape.Z, color: Color.RED }],
 ]);

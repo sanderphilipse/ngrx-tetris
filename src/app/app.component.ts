@@ -20,7 +20,6 @@ export class AppComponent {
 
   @HostListener('document:keydown', ['$event'])
   dispatchKeyEvent(event: KeyboardEvent) {
-    console.log(event.key);
     this.store.dispatch(keyDown({key: event.key}));
   }
 
